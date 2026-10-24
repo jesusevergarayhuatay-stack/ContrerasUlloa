@@ -1,0 +1,1591 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap');
+
+:root {
+  /* Paleta Oficial III Congreso Internacional de Estado Abierto y Gobernanza (UNAM 2026) */
+  --unam-teal: #00a99d;
+  --unam-teal-bright: #00b49c;
+  --unam-teal-dark: #00796b;
+  --unam-blue: #1c75bc;
+  --unam-blue-soft: #4a89dc;
+  --unam-card-blue: #5A9BCD;
+  --unam-card-blue-dark: #3b7db5;
+  --unam-navy: #0c2340;
+  --unam-coral: #EE744F;
+  --unam-gold: #FFC000;
+  --unam-green: #1E9B0D;
+  --unam-magenta: #c2185b;
+
+  /* Paleta Académica Sobria para Visualización de Datos de Género */
+  --women-color: #00897b;       /* Turquesa profundo institucional para Mujeres */
+  --women-accent: #d81b60;      /* Carmesí/vino académico para alertas y destaques femeninos */
+  --women-soft: #fce4ec;
+  --women-teal-soft: #e0f2f1;
+  --men-color: #1e3a5f;         /* Azul marino pizarra sobrio para Hombres */
+  --men-soft: #e2e8f0;
+  --men-mid: #475569;
+  --alert-red: #b91c1c;
+  --alert-red-soft: #fee2e2;
+
+  /* Degradados Oficiales PPTX */
+  --grad-congreso: linear-gradient(135deg, #00b09b 0%, #00a99d 32%, #1d82b8 75%, #4a89dc 100%);
+  --grad-rainbow: linear-gradient(90deg, #e6007e 0%, #ee744f 22%, #ffc000 45%, #1e9b0d 68%, #00a99d 85%, #1f497d 100%);
+  --grad-rainbow-rev: linear-gradient(90deg, #007d75 0%, #00a99d 18%, #1e9b0d 35%, #ffc000 55%, #ee744f 78%, #e6007e 100%);
+  --grad-rainbow-vert: linear-gradient(180deg, #e6007e 0%, #ee744f 30%, #ffc000 60%, #1e9b0d 85%, #00a99d 100%);
+
+  /* Superficies y Texto */
+  --bg-dark-stage: #071324;
+  --text-dark: #0f172a;
+  --text-muted: #475569;
+  --text-light: #ffffff;
+  --shadow-card: 0 10px 28px -6px rgba(12, 35, 64, 0.12), 0 4px 10px -2px rgba(12, 35, 64, 0.06);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-dark-stage);
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+/* =========================================================
+   CONTENEDOR PRINCIPAL Y ESCENARIO 16:9
+   ========================================================= */
+.app-shell {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 20%, #0d2b45 0%, #050e1a 100%);
+}
+
+.deck-viewport {
+  position: relative;
+  width: 1280px;
+  height: 720px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+  transform-origin: center center;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* =========================================================
+   DIAPOSITIVAS (SLIDES) Y VARIANTES DEL FORMATO PPTX UNAM
+   ========================================================= */
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 1280px;
+  height: 720px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px) scale(0.992);
+  transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+              visibility 0.42s;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  z-index: 5;
+}
+
+.slide--white {
+  background: #ffffff;
+  color: var(--text-dark);
+}
+
+.slide--teal-grad {
+  background: var(--grad-congreso);
+  background-image: url('./image2.png');
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
+}
+
+/* Marca de agua Quetzalcóatl */
+.watermark-quetzal {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  user-select: none;
+  filter: saturate(0.95);
+}
+
+.watermark-quetzal--center {
+  width: 560px;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.12;
+}
+
+.watermark-quetzal--right {
+  width: 660px;
+  height: auto;
+  top: 48%;
+  right: -70px;
+  transform: translateY(-50%);
+  opacity: 0.15;
+}
+
+.watermark-quetzal--left {
+  width: 640px;
+  height: auto;
+  top: 46%;
+  left: -50px;
+  transform: translateY(-50%);
+  opacity: 0.15;
+}
+
+.watermark-quetzal--bottom-right {
+  width: 420px;
+  height: auto;
+  bottom: 28px;
+  right: 36px;
+  opacity: 0.13;
+}
+
+.watermark-quetzal--closing {
+  width: 260px;
+  height: auto;
+  bottom: 42px;
+  left: 68px;
+  opacity: 0.28;
+}
+
+/* Barra Inferior Oficial del Template */
+.pptx-footer-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 26px;
+  display: flex;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.pptx-footer-bar__left {
+  width: 59.2%;
+  height: 100%;
+  background: linear-gradient(90deg, #009688 0%, #00a99d 60%, #0fb2a6 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.pptx-footer-bar__left::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(0, 80, 75, 0.22) 0px,
+    rgba(0, 80, 75, 0.22) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+}
+
+.pptx-footer-bar__right {
+  width: 40.8%;
+  height: 100%;
+  background: #ffffff;
+}
+
+.pptx-footer-bar__rainbow {
+  position: absolute;
+  top: 7px;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: var(--grad-rainbow-rev);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.28);
+  z-index: 2;
+}
+
+/* Bordes Laterales Oficiales */
+.pptx-side-borders {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.pptx-side-borders__left,
+.pptx-side-borders__right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 16px;
+}
+
+.pptx-side-borders__left {
+  left: 0;
+  background: linear-gradient(180deg, #ffffff 0%, #ffffff 42%, #009688 42%, #007d75 100%);
+}
+
+.pptx-side-borders__left::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 3px;
+  width: 4px;
+  background: var(--grad-rainbow-vert);
+  box-shadow: 1px 0 4px rgba(0,0,0,0.2);
+}
+
+.pptx-side-borders__right {
+  right: 0;
+  background: linear-gradient(180deg, #007d75 0%, #009688 58%, #ffffff 58%, #ffffff 100%);
+}
+
+.pptx-side-borders__right::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 3px;
+  width: 4px;
+  background: var(--grad-rainbow-vert);
+  box-shadow: -1px 0 4px rgba(0,0,0,0.2);
+}
+
+/* Cinta Superior de Identidad */
+.slide-top-meta {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 48px 0 48px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.slide--white .slide-top-meta {
+  color: var(--unam-teal-dark);
+}
+
+.slide--teal-grad .slide-top-meta {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.slide--white .meta-pill {
+  background: rgba(0, 169, 157, 0.1);
+  color: var(--unam-teal-dark);
+  border: 1px solid rgba(0, 169, 157, 0.25);
+}
+
+.slide--teal-grad .meta-pill {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+}
+
+.slide-body {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 48px 38px 48px;
+  overflow: hidden;
+}
+
+.pptx-h1 {
+  font-family: 'Plus Jakarta Sans', 'Open Sans', sans-serif;
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+}
+
+.pptx-h2 {
+  font-family: 'Plus Jakarta Sans', 'Open Sans', sans-serif;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+}
+
+.pptx-subtitle {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.42;
+  margin-top: 4px;
+}
+
+.slide--white .pptx-subtitle {
+  color: var(--text-muted);
+}
+
+.slide--teal-grad .pptx-subtitle {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* =========================================================
+   SLIDE 1: PORTADA OFICIAL UNAM 2026
+   ========================================================= */
+.cover-banner {
+  width: 100%;
+  height: 202px;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  flex-shrink: 0;
+}
+
+.cover-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 18px 80px 42px 80px;
+  position: relative;
+  z-index: 10;
+}
+
+.cover-panel-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(90deg, rgba(0, 169, 157, 0.12), rgba(28, 117, 188, 0.12));
+  border: 1px solid rgba(0, 169, 157, 0.35);
+  color: #00695c;
+  padding: 6px 18px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.cover-title {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 38px;
+  line-height: 1.24;
+  color: #000000;
+  max-width: 1040px;
+  margin-bottom: 22px;
+}
+
+.cover-title strong {
+  font-weight: 800;
+  color: #000000;
+}
+
+.cover-title span {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.cover-author-box {
+  margin-top: 2px;
+  margin-bottom: 18px;
+}
+
+.cover-author-label {
+  font-size: 20px;
+  font-weight: 500;
+  color: #334155;
+  line-height: 1.2;
+}
+
+.cover-author-name {
+  font-size: 31px;
+  font-weight: 800;
+  color: #000000;
+  letter-spacing: -0.01em;
+  margin-top: 3px;
+}
+
+.cover-author-role {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 5px 16px;
+  border-radius: 999px;
+  background: var(--unam-navy);
+  color: #ffffff;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.cover-meta-grid {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 8px;
+  padding: 10px 24px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #0f172a;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+.cover-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.cover-meta-divider {
+  width: 1px;
+  height: 18px;
+  background: #cbd5e1;
+}
+
+/* =========================================================
+   SLIDE 2: ÍNDICE
+   ========================================================= */
+.index-layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 48px;
+  align-items: center;
+  height: 100%;
+  padding: 10px 24px;
+}
+
+.index-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.index-big-title {
+  font-family: 'Plus Jakarta Sans', 'Open Sans', sans-serif;
+  font-size: 72px;
+  font-weight: 800;
+  color: #000000;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 18px;
+}
+
+.index-summary-card {
+  background: linear-gradient(135deg, rgba(0, 169, 157, 0.08), rgba(28, 117, 188, 0.08));
+  border-left: 4px solid var(--unam-teal);
+  padding: 16px 18px;
+  border-radius: 0 12px 12px 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #1e293b;
+}
+
+.index-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 11px;
+}
+
+.index-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 13px 20px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+  cursor: pointer;
+  transition: all 0.22s ease;
+  text-align: left;
+}
+
+.index-item:hover {
+  transform: translateX(8px);
+  border-color: var(--unam-teal);
+  box-shadow: 0 8px 24px rgba(0, 169, 157, 0.16);
+}
+
+.index-item__num {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--grad-congreso);
+  color: #ffffff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.index-item__text h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 2px;
+}
+
+.index-item__text p {
+  font-size: 12.5px;
+  color: #64748b;
+}
+
+/* =========================================================
+   IDEA FUERZA / DIVISOR DE SECCIÓN
+   ========================================================= */
+.section-hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 70px;
+}
+
+.section-hero__kicker {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  margin-bottom: 18px;
+}
+
+.section-hero__title {
+  font-family: 'Plus Jakarta Sans', 'Open Sans', sans-serif;
+  font-size: 54px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  margin-bottom: 22px;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.section-hero__idea {
+  max-width: 960px;
+  font-size: 20.5px;
+  font-weight: 500;
+  line-height: 1.52;
+  background: rgba(12, 35, 64, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(10px);
+  padding: 24px 36px;
+  border-radius: 20px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+}
+
+.keyword-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.keyword-chip {
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--unam-navy);
+  font-size: 12.5px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* =========================================================
+   TARJETAS DE 4 COLUMNAS (Slides 7 y 8 PPTX)
+   ========================================================= */
+.four-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  flex: 1;
+  align-items: stretch;
+  margin-top: 16px;
+}
+
+.pptx-card--blue {
+  background: linear-gradient(180deg, #5A9BCD 0%, #4686b8 100%);
+  color: #ffffff;
+  border-radius: 16px;
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 14px 28px -6px rgba(70, 134, 184, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: transform 0.25s ease;
+}
+
+.pptx-card--blue:hover {
+  transform: translateY(-4px);
+}
+
+.pptx-card--blue .card-num-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(12, 35, 64, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  color: #ffffff;
+  margin-bottom: 14px;
+}
+
+.pptx-card--blue h3 {
+  font-size: 18.5px;
+  font-weight: 800;
+  color: #05192d;
+  line-height: 1.25;
+  margin-bottom: 12px;
+}
+
+.pptx-card--blue p {
+  font-size: 13.5px;
+  line-height: 1.52;
+  color: #071e36;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.pptx-card--blue .card-foot-tag {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.32);
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.pptx-card--white {
+  background: #ffffff;
+  color: var(--text-dark);
+  border-radius: 16px;
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 14px 32px rgba(7, 19, 36, 0.18);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease;
+}
+
+.pptx-card--white:hover {
+  transform: translateY(-4px);
+}
+
+.pptx-card--white::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: var(--grad-congreso);
+}
+
+.pptx-card--white .card-num-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(0, 169, 157, 0.12);
+  color: var(--unam-teal-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.pptx-card--white h3 {
+  font-size: 17.5px;
+  font-weight: 800;
+  color: #000000;
+  line-height: 1.26;
+  margin-bottom: 10px;
+}
+
+.pptx-card--white p {
+  font-size: 13.2px;
+  line-height: 1.5;
+  color: #334155;
+  margin-bottom: 10px;
+}
+
+.pptx-card--white .card-foot-tag {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid #e2e8f0;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--unam-blue);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* =========================================================
+   CRONOLOGÍA PRESIDENCIAL (Slide 6)
+   ========================================================= */
+.timeline-wrapper {
+  position: relative;
+  margin-top: 12px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pptx-timeline-track {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  padding-top: 10px;
+}
+
+.pptx-timeline-line {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  right: 24px;
+  height: 3px;
+  background: #5A9BCD;
+  z-index: 1;
+}
+
+.timeline-step {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 10px 10px 12px 10px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+  transition: all 0.22s ease;
+  cursor: pointer;
+}
+
+.timeline-step:hover {
+  transform: translateY(-4px);
+  border-color: var(--unam-coral);
+  box-shadow: 0 12px 26px rgba(238, 116, 79, 0.2);
+}
+
+.timeline-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--unam-coral);
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 0 2px var(--unam-coral);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.timeline-step--woman .timeline-dot {
+  background: var(--unam-teal-dark);
+  box-shadow: 0 0 0 2px var(--unam-teal-dark);
+}
+
+.timeline-step__date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--unam-blue);
+  margin-bottom: 3px;
+}
+
+.timeline-step__name {
+  font-size: 13.8px;
+  font-weight: 800;
+  color: #000000;
+  line-height: 1.2;
+  margin-bottom: 5px;
+}
+
+.timeline-step__duration {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  background: #f1f5f9;
+  color: #334155;
+  padding: 2px 7px;
+  border-radius: 5px;
+  margin-bottom: 6px;
+}
+
+.timeline-step__meta {
+  font-size: 11px;
+  line-height: 1.38;
+  color: #475569;
+  margin-bottom: 7px;
+}
+
+.timeline-step__exit {
+  margin-top: auto;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.exit--vacancia {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.exit--renuncia {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+.exit--transicion {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.exit--prospectivo {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+/* =========================================================
+   COMPONENTES DE VISUALIZACIÓN NATIVA ACADÉMICA (REEMPLAZO DE PNGs)
+   ========================================================= */
+.gov-split-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  flex: 1;
+  min-height: 0;
+  margin-top: 10px;
+}
+
+.gov-panel {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 16px 20px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.slide--teal-grad .gov-panel {
+  background: rgba(255, 255, 255, 0.97);
+  color: var(--text-dark);
+  border: none;
+}
+
+.panel-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+  border-bottom: 2px solid #f1f5f9;
+}
+
+.panel-header-bar h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--unam-navy);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.panel-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.gov-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.gov-kpi-card {
+  padding: 10px 12px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.gov-kpi-card--women {
+  background: var(--women-teal-soft);
+  border: 1px solid rgba(0, 137, 123, 0.3);
+  color: #00695c;
+}
+
+.gov-kpi-card--alert {
+  background: var(--alert-red-soft);
+  border: 1px solid rgba(185, 28, 28, 0.25);
+  color: var(--alert-red);
+}
+
+.gov-kpi-card--men {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: var(--men-color);
+}
+
+.gov-kpi-card--neutral {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
+}
+
+.gov-kpi-card__val {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.gov-kpi-card__lbl {
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 3px;
+}
+
+/* Barras Horizontales Académicas */
+.cabinet-bar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cabinet-bar-row {
+  display: grid;
+  grid-template-columns: 195px 1fr 70px;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.2px;
+}
+
+.cabinet-bar-row__name {
+  font-weight: 700;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cabinet-bar-row__name small {
+  font-weight: 500;
+  color: #64748b;
+  font-size: 11px;
+}
+
+.cabinet-bar-track {
+  width: 100%;
+  height: 13px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.cabinet-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00796b 0%, #00a99d 100%);
+  border-radius: 999px;
+}
+
+.cabinet-bar-fill--low {
+  background: linear-gradient(90deg, #b91c1c 0%, #e11d48 100%);
+}
+
+.cabinet-bar-pct {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 12.5px;
+  color: var(--unam-teal-dark);
+  text-align: right;
+}
+
+/* Donut Nativo SVG + Leyenda */
+.donut-viz-row {
+  display: grid;
+  grid-template-columns: 155px 1fr;
+  gap: 16px;
+  align-items: center;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
+
+.svg-donut-wrap {
+  position: relative;
+  width: 136px;
+  height: 136px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.svg-donut-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.svg-donut-center strong {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--unam-navy);
+  line-height: 1;
+}
+
+.svg-donut-center span {
+  font-size: 10px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* Matriz de 19 Escaños Ministeriales (Waffle / Hemicycle Grid) */
+.seats-19-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 5px;
+  margin: 8px 0;
+}
+
+.seat-pill {
+  height: 22px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.seat-pill--w {
+  background: var(--unam-teal);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 169, 157, 0.3);
+}
+
+.seat-pill--w-pcm {
+  background: var(--unam-coral);
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+
+.seat-pill--m {
+  background: #cbd5e1;
+  color: #334155;
+}
+
+/* Tarjetas de Cartera Ministerial (Matrix Chips) */
+.ministry-matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  font-size: 11.5px;
+}
+
+.ministry-chip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px;
+  border-radius: 7px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.ministry-chip--woman {
+  background: #e0f2f1;
+  border-color: rgba(0, 169, 157, 0.4);
+  color: #004d40;
+  font-weight: 700;
+}
+
+.ministry-chip--zero {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+.zoom-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--unam-teal-dark);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.zoom-pill-btn:hover {
+  background: var(--unam-navy);
+}
+
+/* =========================================================
+   CITA Y CONCLUSIONES (Slide 15)
+   ========================================================= */
+.quote-slide-layout {
+  display: grid;
+  grid-template-columns: 0.92fr 1.08fr;
+  gap: 32px;
+  align-items: center;
+  flex: 1;
+  padding: 8px 12px;
+}
+
+.quote-box-pptx {
+  background: rgba(255, 255, 255, 0.97);
+  color: #0f172a;
+  border-radius: 20px;
+  padding: 28px 30px;
+  box-shadow: 0 20px 44px rgba(7, 19, 36, 0.28);
+  position: relative;
+}
+
+.quote-mark-img {
+  width: 60px;
+  height: auto;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.quote-box-pptx blockquote {
+  font-family: 'Plus Jakarta Sans', 'Open Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.42;
+  color: #0c2340;
+  margin-bottom: 16px;
+}
+
+.quote-box-pptx cite {
+  display: block;
+  font-style: normal;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--unam-teal-dark);
+}
+
+/* =========================================================
+   BARRA DE CONTROL FLOTANTE (HUD PRESENTADOR)
+   ========================================================= */
+.hud-bar {
+  position: fixed;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  background: rgba(12, 35, 64, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(14px);
+  border-radius: 999px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  color: #ffffff;
+}
+
+.hud-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.18s ease;
+}
+
+.hud-btn:hover {
+  background: var(--unam-teal);
+  border-color: var(--unam-teal-bright);
+}
+
+.hud-btn--active {
+  background: var(--unam-coral);
+  border-color: var(--unam-coral);
+}
+
+.hud-counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 0 10px;
+  color: #e2e8f0;
+}
+
+.hud-progress {
+  width: 90px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.hud-progress__fill {
+  height: 100%;
+  background: var(--grad-rainbow);
+  width: 6.25%;
+  transition: width 0.3s ease;
+}
+
+/* =========================================================
+   MODALES INTERACTIVOS (TABLAS Y NOTAS)
+   ========================================================= */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 14, 26, 0.86);
+  backdrop-filter: blur(10px);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+}
+
+.modal-backdrop.open {
+  display: flex;
+}
+
+.modal-window {
+  background: #ffffff;
+  border-radius: 18px;
+  max-width: 1180px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.65);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  background: var(--unam-navy);
+  color: #ffffff;
+}
+
+.modal-header h3 {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.modal-close-btn {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #ffffff;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.modal-close-btn:hover {
+  background: var(--alert-red);
+}
+
+.modal-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  user-select: text;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.2px;
+}
+
+.data-table th {
+  background: var(--unam-navy);
+  color: #ffffff;
+  font-weight: 700;
+  text-align: left;
+  padding: 8px 11px;
+  position: sticky;
+  top: 0;
+}
+
+.data-table td {
+  padding: 7px 11px;
+  border-bottom: 1px solid #e2e8f0;
+  color: #1e293b;
+}
+
+.data-table tr:nth-child(even) td {
+  background: #f8fafc;
+}
+
+.badge-sex-f {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #e0f2f1;
+  color: #00695c;
+  border: 1px solid rgba(0, 137, 123, 0.3);
+  font-weight: 800;
+  font-size: 11px;
+}
+
+.badge-sex-alert {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #fee2e2;
+  color: #b91c1c;
+  font-weight: 800;
+  font-size: 11px;
+}
+
+.badge-sex-m {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  color: #1e3a5f;
+  font-weight: 700;
+  font-size: 11px;
+}
+
+/* Panel de Notas de Oradora */
+.speaker-drawer {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  bottom: 72px;
+  width: 370px;
+  background: rgba(12, 35, 64, 0.96);
+  border: 1px solid rgba(0, 169, 157, 0.45);
+  backdrop-filter: blur(16px);
+  border-radius: 16px;
+  color: #ffffff;
+  z-index: 150;
+  display: none;
+  flex-direction: column;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+.speaker-drawer.open {
+  display: flex;
+}
+
+.speaker-drawer__head {
+  padding: 14px 18px;
+  background: rgba(0, 169, 157, 0.22);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.speaker-drawer__timer {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--unam-gold);
+}
+
+.speaker-drawer__body {
+  padding: 16px 18px;
+  overflow-y: auto;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #e2e8f0;
+  user-select: text;
+}
+
+.speaker-drawer__body p {
+  margin-bottom: 12px;
+}
+
+/* Vista de Cuadrícula de Diapositivas */
+.grid-drawer {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 19, 36, 0.94);
+  backdrop-filter: blur(14px);
+  z-index: 180;
+  display: none;
+  flex-direction: column;
+  padding: 28px 44px 80px 44px;
+  overflow-y: auto;
+}
+
+.grid-drawer.open {
+  display: flex;
+}
+
+.slides-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.overview-card {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.overview-card:hover,
+.overview-card.active {
+  background: rgba(0, 169, 157, 0.25);
+  border-color: var(--unam-teal-bright);
+  transform: translateY(-3px);
+}
+
+.overview-card__num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--unam-gold);
+  margin-bottom: 4px;
+}
+
+.overview-card__title {
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+@media print {
+  @page {
+    size: 1280px 720px;
+    margin: 0;
+  }
+  html, body {
+    overflow: visible !important;
+    height: auto !important;
+    background: #ffffff !important;
+  }
+  .app-shell {
+    display: block !important;
+    height: auto !important;
+    background: none !important;
+  }
+  .deck-viewport {
+    width: 1280px !important;
+    height: auto !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  .slide {
+    position: relative !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    page-break-after: always !important;
+    break-after: page !important;
+  }
+  .hud-bar, .speaker-drawer, .grid-drawer, .modal-backdrop {
+    display: none !important;
+  }
+}
