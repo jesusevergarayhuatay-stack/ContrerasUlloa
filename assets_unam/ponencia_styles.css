@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap');
 
 :root {
   /* Paleta Oficial III Congreso Internacional de Estado Abierto y Gobernanza (UNAM 2026) */
@@ -15,12 +15,12 @@
   --unam-green: #1E9B0D;
   --unam-magenta: #c2185b;
 
-  /* Paleta Académica Sobria para Visualización de Datos de Género */
-  --women-color: #00897b;       /* Turquesa profundo institucional para Mujeres */
-  --women-accent: #d81b60;      /* Carmesí/vino académico para alertas y destaques femeninos */
+  /* Paleta Académica Internacional para Visualización de Datos */
+  --women-color: #00897b;
+  --women-accent: #d81b60;
   --women-soft: #fce4ec;
   --women-teal-soft: #e0f2f1;
-  --men-color: #1e3a5f;         /* Azul marino pizarra sobrio para Hombres */
+  --men-color: #1e3a5f;
   --men-soft: #e2e8f0;
   --men-mid: #475569;
   --alert-red: #b91c1c;
@@ -32,12 +32,12 @@
   --grad-rainbow-rev: linear-gradient(90deg, #007d75 0%, #00a99d 18%, #1e9b0d 35%, #ffc000 55%, #ee744f 78%, #e6007e 100%);
   --grad-rainbow-vert: linear-gradient(180deg, #e6007e 0%, #ee744f 30%, #ffc000 60%, #1e9b0d 85%, #00a99d 100%);
 
-  /* Superficies y Texto */
-  --bg-dark-stage: #071324;
+  /* Superficies y Sombras */
+  --bg-dark-stage: #06101e;
   --text-dark: #0f172a;
   --text-muted: #475569;
   --text-light: #ffffff;
-  --shadow-card: 0 10px 28px -6px rgba(12, 35, 64, 0.12), 0 4px 10px -2px rgba(12, 35, 64, 0.06);
+  --shadow-card: 0 12px 30px -6px rgba(12, 35, 64, 0.13), 0 4px 10px -2px rgba(12, 35, 64, 0.06);
 }
 
 *, *::before, *::after {
@@ -57,6 +57,12 @@ html, body {
   user-select: none;
 }
 
+/* Puntero Láser de Auditorio (Tecla L) */
+body.laser-mode,
+body.laser-mode * {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'><circle cx='14' cy='14' r='10' fill='rgba(230,0,126,0.28)'/><circle cx='14' cy='14' r='5' fill='%23ff1744' stroke='white' stroke-width='1.5'/></svg>") 14 14, crosshair !important;
+}
+
 /* =========================================================
    CONTENEDOR PRINCIPAL Y ESCENARIO 16:9
    ========================================================= */
@@ -68,7 +74,8 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at 50% 20%, #0d2b45 0%, #050e1a 100%);
+  padding-bottom: 28px;
+  background: radial-gradient(circle at 50% 18%, #0f3152 0%, #050d18 100%);
 }
 
 .deck-viewport {
@@ -76,15 +83,15 @@ html, body {
   width: 1280px;
   height: 720px;
   background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.72), 0 0 0 1px rgba(255, 255, 255, 0.14);
   overflow: hidden;
   transform-origin: center center;
   transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* =========================================================
-   DIAPOSITIVAS (SLIDES) Y VARIANTES DEL FORMATO PPTX UNAM
+   DIAPOSITIVAS Y COREOGRAFÍA DE ENTRADA (KEYNOTE MOTION)
    ========================================================= */
 .slide {
   position: absolute;
@@ -93,10 +100,10 @@ html, body {
   height: 720px;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(12px) scale(0.992);
-  transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1),
-              transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
-              visibility 0.42s;
+  transform: translateY(10px) scale(0.994);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.45s;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -108,6 +115,73 @@ html, body {
   visibility: visible;
   transform: translateY(0) scale(1);
   z-index: 5;
+}
+
+/* Animaciones escalonadas al activar lámina */
+@keyframes fadeUpStagger {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes growWidth {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.slide.active .pptx-h1,
+.slide.active .pptx-h2,
+.slide.active .section-hero__title {
+  animation: fadeUpStagger 0.48s cubic-bezier(0.16, 1, 0.3, 1) 0.04s both;
+}
+
+.slide.active .pptx-subtitle,
+.slide.active .section-hero__idea {
+  animation: fadeUpStagger 0.52s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+.slide.active .pptx-card--blue,
+.slide.active .pptx-card--white,
+.slide.active .gov-panel,
+.slide.active .timeline-step,
+.slide.active .index-item {
+  animation: fadeUpStagger 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.14s both;
+}
+
+.slide.active .pptx-card--blue:nth-child(2),
+.slide.active .pptx-card--white:nth-child(2),
+.slide.active .gov-panel:nth-child(2),
+.slide.active .timeline-step:nth-child(3),
+.slide.active .index-item:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.slide.active .pptx-card--blue:nth-child(3),
+.slide.active .pptx-card--white:nth-child(3),
+.slide.active .timeline-step:nth-child(4),
+.slide.active .index-item:nth-child(3) {
+  animation-delay: 0.26s;
+}
+
+.slide.active .pptx-card--blue:nth-child(4),
+.slide.active .pptx-card--white:nth-child(4),
+.slide.active .timeline-step:nth-child(5),
+.slide.active .index-item:nth-child(4) {
+  animation-delay: 0.32s;
+}
+
+.slide.active .cabinet-bar-fill {
+  transform-origin: left center;
+  animation: growWidth 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.22s both;
 }
 
 .slide--white {
@@ -138,7 +212,7 @@ html, body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  opacity: 0.12;
+  opacity: 0.11;
 }
 
 .watermark-quetzal--right {
@@ -147,7 +221,7 @@ html, body {
   top: 48%;
   right: -70px;
   transform: translateY(-50%);
-  opacity: 0.15;
+  opacity: 0.14;
 }
 
 .watermark-quetzal--left {
@@ -156,7 +230,7 @@ html, body {
   top: 46%;
   left: -50px;
   transform: translateY(-50%);
-  opacity: 0.15;
+  opacity: 0.14;
 }
 
 .watermark-quetzal--bottom-right {
@@ -164,7 +238,7 @@ html, body {
   height: auto;
   bottom: 28px;
   right: 36px;
-  opacity: 0.13;
+  opacity: 0.12;
 }
 
 .watermark-quetzal--closing {
@@ -273,18 +347,20 @@ html, body {
   box-shadow: -1px 0 4px rgba(0,0,0,0.2);
 }
 
-/* Cinta Superior de Identidad */
+/* Cinta Superior con Breadcrumb de Progreso Académico */
 .slide-top-meta {
   position: relative;
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 48px 0 48px;
-  font-size: 12px;
+  gap: 12px;
+  padding: 14px 48px 0 48px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .slide--white .slide-top-meta {
@@ -292,7 +368,51 @@ html, body {
 }
 
 .slide--teal-grad .slide-top-meta {
-  color: rgba(255, 255, 255, 0.92);
+  color: rgba(255, 255, 255, 0.94);
+}
+
+/* Stepper de Secciones en la Parte Superior */
+.section-stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(15, 23, 42, 0.05);
+  padding: 3px 5px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.slide--teal-grad .section-stepper {
+  background: rgba(12, 35, 64, 0.35);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.stepper-dot {
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 9.8px;
+  font-weight: 700;
+  cursor: pointer;
+  opacity: 0.68;
+  white-space: nowrap;
+  transition: all 0.18s ease;
+}
+
+.stepper-dot:hover {
+  opacity: 1;
+}
+
+.stepper-dot.active {
+  opacity: 1;
+  background: var(--unam-teal-dark);
+  color: #ffffff;
+}
+
+.slide--teal-grad .stepper-dot.active {
+  background: #ffffff;
+  color: var(--unam-navy);
 }
 
 .meta-pill {
@@ -301,7 +421,7 @@ html, body {
   gap: 8px;
   padding: 5px 14px;
   border-radius: 999px;
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.05em;
 }
@@ -313,9 +433,9 @@ html, body {
 }
 
 .slide--teal-grad .meta-pill {
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.18);
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.32);
   backdrop-filter: blur(8px);
 }
 
@@ -325,13 +445,13 @@ html, body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 14px 48px 38px 48px;
+  padding: 12px 48px 36px 48px;
   overflow: hidden;
 }
 
 .pptx-h1 {
   font-family: 'Plus Jakarta Sans', 'Open Sans', sans-serif;
-  font-size: 38px;
+  font-size: 36px;
   font-weight: 800;
   line-height: 1.14;
   letter-spacing: -0.02em;
@@ -339,17 +459,17 @@ html, body {
 
 .pptx-h2 {
   font-family: 'Plus Jakarta Sans', 'Open Sans', sans-serif;
-  font-size: 30px;
+  font-size: 29px;
   font-weight: 800;
   line-height: 1.18;
   letter-spacing: -0.015em;
 }
 
 .pptx-subtitle {
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 500;
   line-height: 1.42;
-  margin-top: 4px;
+  margin-top: 3px;
 }
 
 .slide--white .pptx-subtitle {
@@ -357,7 +477,7 @@ html, body {
 }
 
 .slide--teal-grad .pptx-subtitle {
-  color: rgba(255, 255, 255, 0.92);
+  color: rgba(255, 255, 255, 0.93);
 }
 
 /* =========================================================
@@ -379,7 +499,7 @@ html, body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 18px 80px 42px 80px;
+  padding: 16px 80px 42px 80px;
   position: relative;
   z-index: 10;
 }
@@ -393,49 +513,51 @@ html, body {
   color: #00695c;
   padding: 6px 18px;
   border-radius: 999px;
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .cover-title {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Open Sans', sans-serif;
   font-size: 38px;
-  line-height: 1.24;
+  line-height: 1.22;
   color: #000000;
   max-width: 1040px;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
 .cover-title strong {
   font-weight: 800;
-  color: #000000;
+  color: #0c2340;
 }
 
 .cover-title span {
-  font-weight: 500;
+  font-weight: 600;
   color: #1e293b;
 }
 
 .cover-author-box {
   margin-top: 2px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .cover-author-label {
-  font-size: 20px;
-  font-weight: 500;
-  color: #334155;
-  line-height: 1.2;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--unam-teal-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .cover-author-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 31px;
   font-weight: 800;
   color: #000000;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
   margin-top: 3px;
 }
 
@@ -444,7 +566,7 @@ html, body {
   align-items: center;
   gap: 8px;
   margin-top: 8px;
-  padding: 5px 16px;
+  padding: 5px 18px;
   border-radius: 999px;
   background: var(--unam-navy);
   color: #ffffff;
@@ -452,18 +574,19 @@ html, body {
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  box-shadow: 0 6px 16px rgba(12, 35, 64, 0.2);
 }
 
 .cover-meta-grid {
   display: inline-flex;
   align-items: center;
   gap: 18px;
-  margin-top: 8px;
+  margin-top: 6px;
   padding: 10px 24px;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  font-size: 14.5px;
+  font-size: 14px;
   font-weight: 600;
   color: #0f172a;
   box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
@@ -487,10 +610,10 @@ html, body {
 .index-layout {
   display: grid;
   grid-template-columns: 380px 1fr;
-  gap: 48px;
+  gap: 44px;
   align-items: center;
   height: 100%;
-  padding: 10px 24px;
+  padding: 6px 20px;
 }
 
 .index-left {
@@ -501,35 +624,51 @@ html, body {
 
 .index-big-title {
   font-family: 'Plus Jakarta Sans', 'Open Sans', sans-serif;
-  font-size: 72px;
+  font-size: 68px;
   font-weight: 800;
-  color: #000000;
+  color: #0c2340;
   letter-spacing: -0.03em;
   line-height: 1;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .index-summary-card {
   background: linear-gradient(135deg, rgba(0, 169, 157, 0.08), rgba(28, 117, 188, 0.08));
   border-left: 4px solid var(--unam-teal);
-  padding: 16px 18px;
+  padding: 15px 18px;
   border-radius: 0 12px 12px 0;
-  font-size: 13.5px;
+  font-size: 13px;
   line-height: 1.55;
   color: #1e293b;
+  margin-bottom: 14px;
+}
+
+/* Glosario Internacional para audiencia de la UNAM */
+.intl-glossary-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 11.5px;
+  color: #334155;
+  line-height: 1.48;
+}
+
+.intl-glossary-box strong {
+  color: var(--unam-navy);
 }
 
 .index-list {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 11px;
+  gap: 10px;
 }
 
 .index-item {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 13px 20px;
+  padding: 12px 18px;
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 14px;
@@ -546,13 +685,13 @@ html, body {
 }
 
 .index-item__num {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 10px;
   background: var(--grad-congreso);
   color: #ffffff;
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 800;
   display: flex;
   align-items: center;
@@ -561,14 +700,14 @@ html, body {
 }
 
 .index-item__text h4 {
-  font-size: 16px;
+  font-size: 15.5px;
   font-weight: 700;
   color: #0f172a;
   margin-bottom: 2px;
 }
 
 .index-item__text p {
-  font-size: 12.5px;
+  font-size: 12px;
   color: #64748b;
 }
 
@@ -582,11 +721,11 @@ html, body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 0 70px;
+  padding: 0 64px;
 }
 
 .section-hero__kicker {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -594,30 +733,30 @@ html, body {
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.18);
   border: 1px solid rgba(255, 255, 255, 0.35);
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .section-hero__title {
   font-family: 'Plus Jakarta Sans', 'Open Sans', sans-serif;
-  font-size: 54px;
+  font-size: 52px;
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.025em;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .section-hero__idea {
   max-width: 960px;
-  font-size: 20.5px;
+  font-size: 20px;
   font-weight: 500;
   line-height: 1.52;
-  background: rgba(12, 35, 64, 0.28);
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  backdrop-filter: blur(10px);
+  background: rgba(12, 35, 64, 0.32);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
   padding: 24px 36px;
   border-radius: 20px;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
 }
 
 .keyword-chips {
@@ -625,13 +764,13 @@ html, body {
   flex-wrap: wrap;
   justify-content: center;
   gap: 10px;
-  margin-top: 24px;
+  margin-top: 22px;
 }
 
 .keyword-chip {
   padding: 7px 16px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(255, 255, 255, 0.95);
   color: var(--unam-navy);
   font-size: 12.5px;
   font-weight: 700;
@@ -639,27 +778,27 @@ html, body {
 }
 
 /* =========================================================
-   TARJETAS DE 4 COLUMNAS (Slides 7 y 8 PPTX)
+   TARJETAS DE 4 COLUMNAS (Slides 4 y 5)
    ========================================================= */
 .four-cards-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 18px;
   flex: 1;
   align-items: stretch;
-  margin-top: 16px;
+  margin-top: 12px;
 }
 
 .pptx-card--blue {
-  background: linear-gradient(180deg, #5A9BCD 0%, #4686b8 100%);
+  background: linear-gradient(180deg, #5A9BCD 0%, #3d7fb0 100%);
   color: #ffffff;
   border-radius: 16px;
-  padding: 22px 20px;
+  padding: 20px 18px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: 0 14px 28px -6px rgba(70, 134, 184, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 14px 28px -6px rgba(61, 127, 176, 0.38);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   transition: transform 0.25s ease;
 }
 
@@ -668,42 +807,42 @@ html, body {
 }
 
 .pptx-card--blue .card-num-badge {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border-radius: 10px;
-  background: rgba(12, 35, 64, 0.28);
+  background: rgba(12, 35, 64, 0.32);
   border: 1px solid rgba(255, 255, 255, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
-  font-size: 16px;
+  font-size: 15px;
   color: #ffffff;
-  margin-bottom: 14px;
-}
-
-.pptx-card--blue h3 {
-  font-size: 18.5px;
-  font-weight: 800;
-  color: #05192d;
-  line-height: 1.25;
   margin-bottom: 12px;
 }
 
-.pptx-card--blue p {
-  font-size: 13.5px;
-  line-height: 1.52;
-  color: #071e36;
-  font-weight: 600;
+.pptx-card--blue h3 {
+  font-size: 18px;
+  font-weight: 800;
+  color: #041424;
+  line-height: 1.24;
   margin-bottom: 10px;
+}
+
+.pptx-card--blue p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #061b30;
+  font-weight: 600;
+  margin-bottom: 8px;
 }
 
 .pptx-card--blue .card-foot-tag {
   margin-top: auto;
-  padding-top: 10px;
+  padding-top: 9px;
   border-top: 1px solid rgba(255, 255, 255, 0.32);
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 700;
   color: #ffffff;
 }
@@ -712,7 +851,7 @@ html, body {
   background: #ffffff;
   color: var(--text-dark);
   border-radius: 16px;
-  padding: 22px 20px;
+  padding: 20px 18px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 14px 32px rgba(7, 19, 36, 0.18);
@@ -736,8 +875,8 @@ html, body {
 }
 
 .pptx-card--white .card-num-badge {
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border-radius: 10px;
   background: rgba(0, 169, 157, 0.12);
   color: var(--unam-teal-dark);
@@ -746,30 +885,30 @@ html, body {
   justify-content: center;
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
-  font-size: 16px;
-  margin-bottom: 12px;
+  font-size: 15px;
+  margin-bottom: 10px;
 }
 
 .pptx-card--white h3 {
-  font-size: 17.5px;
+  font-size: 17px;
   font-weight: 800;
   color: #000000;
-  line-height: 1.26;
-  margin-bottom: 10px;
+  line-height: 1.25;
+  margin-bottom: 8px;
 }
 
 .pptx-card--white p {
-  font-size: 13.2px;
-  line-height: 1.5;
+  font-size: 13px;
+  line-height: 1.48;
   color: #334155;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .pptx-card--white .card-foot-tag {
   margin-top: auto;
-  padding-top: 10px;
+  padding-top: 9px;
   border-top: 1px solid #e2e8f0;
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--unam-blue);
   text-transform: uppercase;
@@ -781,11 +920,12 @@ html, body {
    ========================================================= */
 .timeline-wrapper {
   position: relative;
-  margin-top: 12px;
+  margin-top: 10px;
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 18px;
 }
 
 .pptx-timeline-track {
@@ -793,7 +933,7 @@ html, body {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 10px;
-  padding-top: 10px;
+  padding-top: 8px;
 }
 
 .pptx-timeline-line {
@@ -814,7 +954,7 @@ html, body {
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  padding: 10px 10px 12px 10px;
+  padding: 13px 11px 14px 11px;
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
   transition: all 0.22s ease;
   cursor: pointer;
@@ -833,7 +973,7 @@ html, body {
   background: var(--unam-coral);
   border: 3px solid #ffffff;
   box-shadow: 0 0 0 2px var(--unam-coral);
-  margin-bottom: 10px;
+  margin-bottom: 9px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -849,14 +989,14 @@ html, body {
 
 .timeline-step__date {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10.5px;
+  font-size: 10.2px;
   font-weight: 700;
   color: var(--unam-blue);
   margin-bottom: 3px;
 }
 
 .timeline-step__name {
-  font-size: 13.8px;
+  font-size: 13.5px;
   font-weight: 800;
   color: #000000;
   line-height: 1.2;
@@ -865,7 +1005,7 @@ html, body {
 
 .timeline-step__duration {
   display: inline-block;
-  font-size: 11px;
+  font-size: 10.8px;
   font-weight: 700;
   background: #f1f5f9;
   color: #334155;
@@ -875,15 +1015,15 @@ html, body {
 }
 
 .timeline-step__meta {
-  font-size: 11px;
-  line-height: 1.38;
+  font-size: 10.8px;
+  line-height: 1.36;
   color: #475569;
-  margin-bottom: 7px;
+  margin-bottom: 6px;
 }
 
 .timeline-step__exit {
   margin-top: auto;
-  font-size: 10.5px;
+  font-size: 10px;
   font-weight: 800;
   padding: 3px 8px;
   border-radius: 6px;
@@ -912,7 +1052,7 @@ html, body {
 }
 
 /* =========================================================
-   COMPONENTES DE VISUALIZACIÓN NATIVA ACADÉMICA (REEMPLAZO DE PNGs)
+   COMPONENTES DE VISUALIZACIÓN NATIVA ACADÉMICA
    ========================================================= */
 .gov-split-layout {
   display: grid;
@@ -920,14 +1060,14 @@ html, body {
   gap: 20px;
   flex: 1;
   min-height: 0;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .gov-panel {
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 16px;
-  padding: 16px 20px;
+  padding: 15px 18px;
   box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
@@ -944,14 +1084,14 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 10px;
-  margin-bottom: 12px;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
   border-bottom: 2px solid #f1f5f9;
 }
 
 .panel-header-bar h3 {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 800;
   color: var(--unam-navy);
   text-transform: uppercase;
@@ -960,9 +1100,9 @@ html, body {
 
 .panel-tag {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 10.8px;
   font-weight: 700;
-  padding: 3px 10px;
+  padding: 3px 9px;
   border-radius: 999px;
   background: #f1f5f9;
   color: #334155;
@@ -972,11 +1112,11 @@ html, body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .gov-kpi-card {
-  padding: 10px 12px;
+  padding: 9px 12px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -1008,30 +1148,30 @@ html, body {
 
 .gov-kpi-card__val {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 24px;
+  font-size: 23px;
   font-weight: 800;
   line-height: 1.1;
 }
 
 .gov-kpi-card__lbl {
-  font-size: 11px;
+  font-size: 10.8px;
   font-weight: 700;
-  margin-top: 3px;
+  margin-top: 2px;
 }
 
 /* Barras Horizontales Académicas */
 .cabinet-bar-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
 }
 
 .cabinet-bar-row {
   display: grid;
-  grid-template-columns: 195px 1fr 70px;
+  grid-template-columns: 195px 1fr 68px;
   align-items: center;
   gap: 10px;
-  font-size: 12.2px;
+  font-size: 12px;
 }
 
 .cabinet-bar-row__name {
@@ -1045,7 +1185,7 @@ html, body {
 .cabinet-bar-row__name small {
   font-weight: 500;
   color: #64748b;
-  font-size: 11px;
+  font-size: 10.8px;
 }
 
 .cabinet-bar-track {
@@ -1070,7 +1210,7 @@ html, body {
 .cabinet-bar-pct {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 700;
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--unam-teal-dark);
   text-align: right;
 }
@@ -1078,20 +1218,20 @@ html, body {
 /* Donut Nativo SVG + Leyenda */
 .donut-viz-row {
   display: grid;
-  grid-template-columns: 155px 1fr;
-  gap: 16px;
+  grid-template-columns: 145px 1fr;
+  gap: 14px;
   align-items: center;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 14px;
-  padding: 12px 16px;
-  margin-bottom: 12px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
 }
 
 .svg-donut-wrap {
   position: relative;
-  width: 136px;
-  height: 136px;
+  width: 128px;
+  height: 128px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1110,26 +1250,26 @@ html, body {
 
 .svg-donut-center strong {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 800;
   color: var(--unam-navy);
   line-height: 1;
 }
 
 .svg-donut-center span {
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 700;
   color: #64748b;
   text-transform: uppercase;
   margin-top: 2px;
 }
 
-/* Matriz de 19 Escaños Ministeriales (Waffle / Hemicycle Grid) */
+/* Matriz de 19 Escaños Ministeriales */
 .seats-19-grid {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   gap: 5px;
-  margin: 8px 0;
+  margin: 6px 0;
 }
 
 .seat-pill {
@@ -1152,7 +1292,6 @@ html, body {
 .seat-pill--w-pcm {
   background: var(--unam-coral);
   color: #ffffff;
-  border: 1px solid #ffffff;
 }
 
 .seat-pill--m {
@@ -1160,19 +1299,19 @@ html, body {
   color: #334155;
 }
 
-/* Tarjetas de Cartera Ministerial (Matrix Chips) */
+/* Tarjetas de Cartera Ministerial */
 .ministry-matrix-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 6px;
-  font-size: 11.5px;
+  gap: 5px;
+  font-size: 11.2px;
 }
 
 .ministry-chip {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 10px;
+  padding: 5px 9px;
   border-radius: 7px;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
@@ -1203,11 +1342,42 @@ html, body {
   font-weight: 700;
   border: none;
   cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
   transition: all 0.18s ease;
 }
 
 .zoom-pill-btn:hover {
   background: var(--unam-navy);
+}
+
+/* Conmutador de Vista en Slide 12 (Curva SVG vs Ranking) */
+.view-switch-bar {
+  display: inline-flex;
+  background: rgba(12, 35, 64, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 4px;
+}
+
+.view-switch-btn {
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: 'Open Sans', sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 5px 13px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.view-switch-btn.active {
+  background: #ffffff;
+  color: var(--unam-navy);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* =========================================================
@@ -1216,79 +1386,87 @@ html, body {
 .quote-slide-layout {
   display: grid;
   grid-template-columns: 0.92fr 1.08fr;
-  gap: 32px;
+  gap: 30px;
   align-items: center;
   flex: 1;
-  padding: 8px 12px;
+  padding: 6px 10px;
 }
 
 .quote-box-pptx {
   background: rgba(255, 255, 255, 0.97);
   color: #0f172a;
   border-radius: 20px;
-  padding: 28px 30px;
+  padding: 26px 28px;
   box-shadow: 0 20px 44px rgba(7, 19, 36, 0.28);
   position: relative;
 }
 
 .quote-mark-img {
-  width: 60px;
+  width: 56px;
   height: auto;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   display: block;
 }
 
 .quote-box-pptx blockquote {
   font-family: 'Plus Jakarta Sans', 'Open Sans', sans-serif;
-  font-size: 20px;
+  font-size: 19.5px;
   font-weight: 800;
   line-height: 1.42;
   color: #0c2340;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .quote-box-pptx cite {
   display: block;
   font-style: normal;
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--unam-teal-dark);
 }
 
 /* =========================================================
-   BARRA DE CONTROL FLOTANTE (HUD PRESENTADOR)
+   BARRA DE CONTROL FLOTANTE DISCRETA (HUD PRESENTADOR)
    ========================================================= */
 .hud-bar {
   position: fixed;
-  bottom: 14px;
+  bottom: 6px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 14px;
-  background: rgba(12, 35, 64, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(14px);
+  gap: 6px;
+  padding: 4px 12px;
+  background: rgba(12, 35, 64, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(12px);
   border-radius: 999px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   color: #ffffff;
+  white-space: nowrap;
+  opacity: 0.32;
+  transition: opacity 0.25s ease;
+}
+
+.hud-bar:hover {
+  opacity: 1;
 }
 
 .hud-btn {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.16);
   color: #ffffff;
-  padding: 6px 12px;
+  padding: 4px 11px;
   border-radius: 999px;
   font-family: 'Open Sans', sans-serif;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
+  white-space: nowrap;
   transition: all 0.18s ease;
 }
 
@@ -1304,14 +1482,14 @@ html, body {
 
 .hud-counter {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 700;
-  padding: 0 10px;
+  padding: 0 8px;
   color: #e2e8f0;
 }
 
 .hud-progress {
-  width: 90px;
+  width: 84px;
   height: 5px;
   background: rgba(255, 255, 255, 0.18);
   border-radius: 999px;
@@ -1455,7 +1633,7 @@ html, body {
   top: 16px;
   right: 16px;
   bottom: 72px;
-  width: 370px;
+  width: 380px;
   background: rgba(12, 35, 64, 0.96);
   border: 1px solid rgba(0, 169, 157, 0.45);
   backdrop-filter: blur(16px);
@@ -1486,6 +1664,17 @@ html, body {
   font-size: 18px;
   font-weight: 800;
   color: var(--unam-gold);
+}
+
+.speaker-drawer__pacing {
+  padding: 7px 18px;
+  background: rgba(255, 192, 0, 0.14);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #fde047;
+  display: flex;
+  justify-content: space-between;
 }
 
 .speaker-drawer__body {
